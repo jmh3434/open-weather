@@ -17,6 +17,13 @@
 		6AE19A9B21A1D3EB008780CE /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE19A9A21A1D3EB008780CE /* Weather.swift */; };
 		6AE19A9D21A355E6008780CE /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE19A9C21A355E6008780CE /* Forecast.swift */; };
 		6AE19A9F21A36784008780CE /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE19A9E21A36784008780CE /* Summary.swift */; };
+		6AE19AAC21A37D4E008780CE /* Dosis-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE19AA521A37D4D008780CE /* Dosis-ExtraBold.ttf */; };
+		6AE19AAD21A37D4E008780CE /* Dosis-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE19AA621A37D4D008780CE /* Dosis-Regular.ttf */; };
+		6AE19AAE21A37D4E008780CE /* Dosis-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE19AA721A37D4D008780CE /* Dosis-Light.ttf */; };
+		6AE19AAF21A37D4E008780CE /* Dosis-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE19AA821A37D4D008780CE /* Dosis-ExtraLight.ttf */; };
+		6AE19AB021A37D4E008780CE /* Dosis-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE19AA921A37D4E008780CE /* Dosis-Medium.ttf */; };
+		6AE19AB121A37D4E008780CE /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE19AAA21A37D4E008780CE /* Dosis-Bold.ttf */; };
+		6AE19AB221A37D4E008780CE /* Dosis-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE19AAB21A37D4E008780CE /* Dosis-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +60,13 @@
 		6AE19A9A21A1D3EB008780CE /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		6AE19A9C21A355E6008780CE /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 		6AE19A9E21A36784008780CE /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
+		6AE19AA521A37D4D008780CE /* Dosis-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-ExtraBold.ttf"; sourceTree = "<group>"; };
+		6AE19AA621A37D4D008780CE /* Dosis-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Regular.ttf"; sourceTree = "<group>"; };
+		6AE19AA721A37D4D008780CE /* Dosis-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Light.ttf"; sourceTree = "<group>"; };
+		6AE19AA821A37D4D008780CE /* Dosis-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-ExtraLight.ttf"; sourceTree = "<group>"; };
+		6AE19AA921A37D4E008780CE /* Dosis-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Medium.ttf"; sourceTree = "<group>"; };
+		6AE19AAA21A37D4E008780CE /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
+		6AE19AAB21A37D4E008780CE /* Dosis-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-SemiBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +117,7 @@
 		6AE19A6B21A1AC2C008780CE /* weather */ = {
 			isa = PBXGroup;
 			children = (
+				6AE19AA421A37CF5008780CE /* Font */,
 				6AE19A6C21A1AC2C008780CE /* AppDelegate.swift */,
 				6AE19A6E21A1AC2C008780CE /* ViewController.swift */,
 				6AE19A9A21A1D3EB008780CE /* Weather.swift */,
@@ -132,6 +147,20 @@
 				6AE19A8E21A1AC2F008780CE /* Info.plist */,
 			);
 			path = weatherUITests;
+			sourceTree = "<group>";
+		};
+		6AE19AA421A37CF5008780CE /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				6AE19AAA21A37D4E008780CE /* Dosis-Bold.ttf */,
+				6AE19AA521A37D4D008780CE /* Dosis-ExtraBold.ttf */,
+				6AE19AA821A37D4D008780CE /* Dosis-ExtraLight.ttf */,
+				6AE19AA721A37D4D008780CE /* Dosis-Light.ttf */,
+				6AE19AA921A37D4E008780CE /* Dosis-Medium.ttf */,
+				6AE19AA621A37D4D008780CE /* Dosis-Regular.ttf */,
+				6AE19AAB21A37D4E008780CE /* Dosis-SemiBold.ttf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,9 +267,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AE19AB121A37D4E008780CE /* Dosis-Bold.ttf in Resources */,
 				6AE19A7721A1AC2F008780CE /* LaunchScreen.storyboard in Resources */,
+				6AE19AAD21A37D4E008780CE /* Dosis-Regular.ttf in Resources */,
 				6AE19A7421A1AC2F008780CE /* Assets.xcassets in Resources */,
+				6AE19AAF21A37D4E008780CE /* Dosis-ExtraLight.ttf in Resources */,
+				6AE19AB021A37D4E008780CE /* Dosis-Medium.ttf in Resources */,
 				6AE19A7221A1AC2C008780CE /* Main.storyboard in Resources */,
+				6AE19AAE21A37D4E008780CE /* Dosis-Light.ttf in Resources */,
+				6AE19AB221A37D4E008780CE /* Dosis-SemiBold.ttf in Resources */,
+				6AE19AAC21A37D4E008780CE /* Dosis-ExtraBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
