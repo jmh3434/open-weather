@@ -46,21 +46,21 @@ struct Summary {
                        if let daily = json["currently"] as? [String:Any] {
                             //print("daily",daily)
                             if let temp = daily["temperature"] as? Double,let humidity = daily["humidity"] as? Double, let time = daily["time"],let precipProbability = daily["precipProbability"],let windSpeed = daily["windSpeed"], let cloudCover = daily["cloudCover"]{
-                                print("temp",temp)
+                                //print("temp",temp)
                                 weatherDict["temp"] = temp
-                                print("humidity",humidity)
+                                //print("humidity",humidity)
                                 weatherDict["humidity"] = humidity
                                 weatherDict["time"] = time
-                                print("time",time)
+                                //print("time",time)
                                 weatherDict["cloudCover"] = cloudCover
-                                print("cloudCover",cloudCover)
+                                //print("cloudCover",cloudCover)
                                 weatherDict["windSpeed"] = windSpeed
-                                print("windSpeed",windSpeed)
+                                //print("windSpeed",windSpeed)
                                 weatherDict["precipProbability"] = precipProbability
-                                print("precipProbability",precipProbability)
+                                //print("precipProbability",precipProbability)
                             }
                             if let nearestStormDistance = daily["nearestStormDistance"] as? Int  {
-                                print("nearestStormDistance",nearestStormDistance)
+                               // print("nearestStormDistance",nearestStormDistance)
                                 weatherDict["nearestStormDistance"] = nearestStormDistance
                             }
                         

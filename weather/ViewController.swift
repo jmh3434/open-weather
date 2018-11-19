@@ -9,7 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var weatherLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getLocation()
@@ -56,7 +57,42 @@ class ViewController: UIViewController {
         }
         Summary.getWeather(withLocation: "35.9467,-79.0612") { (currentWeather:[String : Any]) in
             DispatchQueue.main.async {
-                print(currentWeather["temp"])
+                let temp = currentWeather["temp"] as! Double
+                let humidity = currentWeather["humidity"] as! Double
+                let time = currentWeather["time"] as! Int
+                let cloudCover = currentWeather["cloudCover"] as! Double
+                let windSpeed = currentWeather["windSpeed"] as! Double
+                let precipProbability = currentWeather["precipProbability"] as! Double
+                let nearestStormDistance = currentWeather["nearestStormDistance"] as! Int
+                let summary = currentWeather["summary"] as! String
+                let tempLow = currentWeather["tempLow"] as! Double
+                let tempHigh = currentWeather["tempHigh"] as! Double
+
+                
+                print(currentWeather["temp"] as! Double)
+                print(currentWeather["humidity"] as! Double)
+                print(currentWeather["time"] as! Int)
+                print(currentWeather["cloudCover"] as! Double)
+                print(currentWeather["windSpeed"] as! Double)
+                print(currentWeather["precipProbability"] as! Double)
+                print(currentWeather["nearestStormDistance"] as! Int)
+                print(currentWeather["summary"] as! String)
+                print(currentWeather["tempLow"] as! Double)
+                print(currentWeather["tempHigh"] as! Double)
+                
+                let unixTimestamp = time
+                let date = Date(timeIntervalSince1970: TimeInterval(unixTimestamp))
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.timeZone = TimeZone(abbreviation: "EDT") //Set timezone that you want
+                dateFormatter.locale = NSLocale.current
+                dateFormatter.dateFormat = "MM-dd h:mm" //Specify your format that you want
+                let strDate = dateFormatter.string(from: date)
+                
+                
+                
+                
+                self.weatherLabel.text = "time: \(strDate)\nwindspeed: \(windSpeed) MPH\nhumidity: \(Int(humidity))%\nnearest storm: \(nearestStormDistance) miles\ncloud cover: \(cloudCover)%\nprecipitation probability: \(precipProbability)%"
                 
             }
         }
