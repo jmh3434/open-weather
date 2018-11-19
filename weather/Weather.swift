@@ -47,7 +47,7 @@ struct Weather {
                         
                        
                         if let name = json["name"] as? String  {
-                            print("name=\(name)")
+                            
                             
                         }
                         if let wind = json["wind"] as? [String:Any]  {

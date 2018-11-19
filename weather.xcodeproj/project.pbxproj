@@ -16,6 +16,7 @@
 		6AE19A8D21A1AC2F008780CE /* weatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE19A8C21A1AC2F008780CE /* weatherUITests.swift */; };
 		6AE19A9B21A1D3EB008780CE /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE19A9A21A1D3EB008780CE /* Weather.swift */; };
 		6AE19A9D21A355E6008780CE /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE19A9C21A355E6008780CE /* Forecast.swift */; };
+		6AE19A9F21A36784008780CE /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE19A9E21A36784008780CE /* Summary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		6AE19A8E21A1AC2F008780CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AE19A9A21A1D3EB008780CE /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		6AE19A9C21A355E6008780CE /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		6AE19A9E21A36784008780CE /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				6AE19A6E21A1AC2C008780CE /* ViewController.swift */,
 				6AE19A9A21A1D3EB008780CE /* Weather.swift */,
 				6AE19A9C21A355E6008780CE /* Forecast.swift */,
+				6AE19A9E21A36784008780CE /* Summary.swift */,
 				6AE19A7021A1AC2C008780CE /* Main.storyboard */,
 				6AE19A7321A1AC2F008780CE /* Assets.xcassets */,
 				6AE19A7521A1AC2F008780CE /* LaunchScreen.storyboard */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AE19A9D21A355E6008780CE /* Forecast.swift in Sources */,
+				6AE19A9F21A36784008780CE /* Summary.swift in Sources */,
 				6AE19A6F21A1AC2C008780CE /* ViewController.swift in Sources */,
 				6AE19A9B21A1D3EB008780CE /* Weather.swift in Sources */,
 				6AE19A6D21A1AC2C008780CE /* AppDelegate.swift in Sources */,
