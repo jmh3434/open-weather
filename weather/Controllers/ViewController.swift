@@ -12,9 +12,6 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var refreshButton = UIButton()
-    
-    
     let weatherLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
     let iconContainer = UIView()
     let icon = UIView()
@@ -43,7 +40,6 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         self.view.addSubview(titleLabel)
         
         //label for time, windspeed, and humidity
-        
         weatherLabel.numberOfLines = 112
         weatherLabel.center = CGPoint(x: 180, y: 280)
         weatherLabel.textAlignment = .natural
@@ -52,7 +48,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         self.view.addSubview(weatherLabel)
         
         getLocation()
-        // Do any additional setup after loading the view, typically from a nib.
+        
         
         view.backgroundColor = UIColor(white: 0.9, alpha: 1)
         
@@ -79,14 +75,12 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         
         
         
-        
-        
         // label for low temp
         labelLow = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         labelLow.numberOfLines = 112
-        labelLow.center = CGPoint(x: 180, y: 400)
+        labelLow.center = CGPoint(x: 180, y: 420)
         labelLow.textAlignment = .center
-        labelLow.textColor = UIColor(red:0.35, green:0.56, blue:0.86, alpha:1.0)
+        labelLow.textColor = UIColor(red:0.35, green:0.56, blue:0.96, alpha:1.0)
         labelLow.font = UIFont(name: "Dosis-Light", size: 30)
         self.view.addSubview(labelLow)
         
@@ -94,7 +88,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         //label for current temp
         labelCurrent = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         labelCurrent.numberOfLines = 112
-        labelCurrent.center = CGPoint(x: 180, y: 440)
+        labelCurrent.center = CGPoint(x: 180, y: 460)
         labelCurrent.textAlignment = .center
         labelCurrent.textColor = UIColor.black
         labelCurrent.font = UIFont(name: "Dosis-Light", size: 30)
@@ -103,7 +97,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         // label for max temp
         labelHigh = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         labelHigh.numberOfLines = 112
-        labelHigh.center = CGPoint(x: 180, y: 480)
+        labelHigh.center = CGPoint(x: 180, y: 500)
         labelHigh.textAlignment = .center
         labelHigh.textColor = UIColor.red
         labelHigh.font = UIFont(name: "Dosis-Light", size: 30)
@@ -115,7 +109,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         
         labelSummary = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         labelSummary.numberOfLines = 112
-        labelSummary.center = CGPoint(x: 180, y: 570)
+        labelSummary.center = CGPoint(x: 180, y: 600)
         labelSummary.textAlignment = .center
         labelSummary.textColor = UIColor.black
         labelSummary.font = UIFont(name: "Dosis-Light", size: 30)
@@ -123,47 +117,17 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         
         // buttton
         
-        let button = UIButton(frame: CGRect(x: 150, y: 650, width: 80, height: 30))
-        button.backgroundColor = .black
-        button.setTitle("refresh", for: UIControl.State.normal)
-        button.addTarget(self, action: #selector(buttonAction), for: UIControl.Event.touchUpInside)
         
-        self.view.addSubview(button)
     }
     func getLocation() {
         
-        Weather.forecast(withID: "4460162") { (data:[String:Any]) in
-            
-                
-                DispatchQueue.main.async {
-//                    let temp = result.temp
-//                    print("the temperature is", temp)
-                    
-//                    let humidity = data["humidity"]!
-//                    print("the humidity from here is is", humidity)
-//                    let description = data["description"]!
-//                    print("the description from here is is", description)
-//                    let main = data["main"]!
-//                    print("the main from here is is", main)
-//                    let temp = data["temp"]!
-//
-//                    print("temp is:", temp)
-//                    let temp_max = data["temp_max"]
-//                    print("temp_max",temp_max ?? 0)
-//                    let temp_min = data["temp_min"]
-//                    print("temp_min",temp_min ?? 0)
-//                    let windspeed = data["windspeed"]!
-//                    print("windspeed",windspeed)
-                }
-            
-            
-        }
+    
         Forecast.getWeather(withLocation: "35.9467,-79.0612") { (array:[[String:Any]]) in
             
             
             DispatchQueue.main.async {
                 for date in array {
-                    //print("date",date)
+                    
                     let time = date["time"] as! Int
                     var icon = date["icon"] as! String
                     
@@ -223,7 +187,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone = TimeZone(abbreviation: "EDT") //Set timezone that you want
                 dateFormatter.locale = NSLocale.current
-                dateFormatter.dateFormat = "MM-dd h:mm:ss" //Specify your format that you want
+                dateFormatter.dateFormat = "MM-dd h:mm" //Specify your format that you want
                 let strDate = dateFormatter.string(from: date)
                 
                 
