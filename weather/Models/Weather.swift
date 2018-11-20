@@ -31,7 +31,7 @@ struct Weather {
         
         let url = "\(basePath)\(weatherType)id=\(id)&&appid=\(apiKey)&units=\(units)"
 
-        print("URL",url)
+        
         let request = URLRequest(url: URL(string: url)!)
         
         let task = URLSession.shared.dataTask(with: request) { (data:Data?, response:URLResponse?, error:Error?) in
@@ -75,6 +75,7 @@ struct Weather {
                 
                         }
                         if let weather = json["weather"] as? [[String:Any]] {
+                            print("weather is: ",weather)
                             if let main = weather[0]["main"] as? String,let description = weather[0]["description"] as? String {
                                   weatherDict["main"] = main
                                   weatherDict["description"] = description

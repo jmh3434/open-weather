@@ -8,47 +8,47 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    @IBOutlet weak var weatherLabel: UILabel!
+class ViewController: UIViewController, UICollectionViewDelegate,UICollectionViewDataSource{
     
-    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
-    let container = UIView()
-    let redSquare = UIView()
-    let blueSquare = UIView()
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    var refreshButton = UIButton()
     
     
-    var labeld = UILabel()
-    var labelSum = UILabel()
+    let weatherLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
+    let iconContainer = UIView()
+    let icon = UIView()
+    
+    
+    var labelCurrent = UILabel()
+    var labelSummary = UILabel()
     var labelHigh = UILabel()
     var labelLow = UILabel()
     
-    ////
-    
-    //
-    
-    
-    
-    var refreshButton = UIButton()
+    var tempLows = [Double]()
+    var tempHighs = [Double]()
+    var weekDays = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // label for CH
-        let labelch = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
-        labelch.numberOfLines = 5
-        labelch.text = "Chapel Hill Weather"
-        labelch.center = CGPoint(x: 130, y: 118)
-        labelch.textAlignment = .justified
-        labelch.textColor = UIColor.black
-        labelch.font = UIFont(name: "Dosis-Bold", size: 35)
-        self.view.addSubview(labelch)
+        
+        // label for Title
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
+        titleLabel.numberOfLines = 5
+        titleLabel.text = "Chapel Hill Weather"
+        titleLabel.center = CGPoint(x: 130, y: 118)
+        titleLabel.textAlignment = .justified
+        titleLabel.textColor = UIColor.black
+        titleLabel.font = UIFont(name: "Dosis-Bold", size: 35)
+        self.view.addSubview(titleLabel)
         
         //label for time, windspeed, and humidity
         
-        label.numberOfLines = 112
-        label.center = CGPoint(x: 180, y: 280)
-        label.textAlignment = .natural
-        label.textColor = UIColor.black
-        label.font = UIFont(name: "Dosis-Light", size: 26)
-        self.view.addSubview(label)
+        weatherLabel.numberOfLines = 112
+        weatherLabel.center = CGPoint(x: 180, y: 280)
+        weatherLabel.textAlignment = .natural
+        weatherLabel.textColor = UIColor.black
+        weatherLabel.font = UIFont(name: "Dosis-Light", size: 26)
+        self.view.addSubview(weatherLabel)
         
         getLocation()
         // Do any additional setup after loading the view, typically from a nib.
@@ -56,24 +56,24 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor(white: 0.9, alpha: 1)
         
         
-        self.container.frame = CGRect(x: 60, y: 60, width: 200, height: 200)
-        self.view.addSubview(container)
+        self.iconContainer.frame = CGRect(x: 60, y: 60, width: 200, height: 200)
+        self.view.addSubview(iconContainer)
         
         
-        self.redSquare.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        self.icon.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         
         
         let weatherIcon = UIImageView()
         weatherIcon.image = UIImage(named: "icon_weather.png")
         weatherIcon.frame = CGRect(x: 180, y: 160, width: 100, height: 100)
-        self.redSquare.addSubview(weatherIcon)
+        self.icon.addSubview(weatherIcon)
         
         
         
         
-        self.container.addSubview(self.redSquare)
+        self.iconContainer.addSubview(self.icon)
         UIView.animate(withDuration: 1.5, animations: {
-            self.redSquare.frame.origin.y -= 160
+            self.icon.frame.origin.y -= 160
         }, completion: nil)
         
         
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
         // label for low temp
         labelLow = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         labelLow.numberOfLines = 112
-        labelLow.center = CGPoint(x: 180, y: 450)
+        labelLow.center = CGPoint(x: 180, y: 400)
         labelLow.textAlignment = .center
         labelLow.textColor = UIColor.blue
         labelLow.font = UIFont(name: "Dosis-Light", size: 30)
@@ -91,18 +91,18 @@ class ViewController: UIViewController {
         
         
         //label for current temp
-        labeld = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
-        labeld.numberOfLines = 112
-        labeld.center = CGPoint(x: 180, y: 480)
-        labeld.textAlignment = .center
-        labeld.textColor = UIColor.black
-        labeld.font = UIFont(name: "Dosis-Light", size: 30)
-        self.view.addSubview(labeld)
+        labelCurrent = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
+        labelCurrent.numberOfLines = 112
+        labelCurrent.center = CGPoint(x: 180, y: 440)
+        labelCurrent.textAlignment = .center
+        labelCurrent.textColor = UIColor.black
+        labelCurrent.font = UIFont(name: "Dosis-Light", size: 30)
+        self.view.addSubview(labelCurrent)
         
         // label for max temp
         labelHigh = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         labelHigh.numberOfLines = 112
-        labelHigh.center = CGPoint(x: 180, y: 510)
+        labelHigh.center = CGPoint(x: 180, y: 480)
         labelHigh.textAlignment = .center
         labelHigh.textColor = UIColor.red
         labelHigh.font = UIFont(name: "Dosis-Light", size: 30)
@@ -112,17 +112,17 @@ class ViewController: UIViewController {
         
         // label for weather summary this week
         
-        labelSum = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
-        labelSum.numberOfLines = 112
-        labelSum.center = CGPoint(x: 180, y: 650)
-        labelSum.textAlignment = .center
-        labelSum.textColor = UIColor.black
-        labelSum.font = UIFont(name: "Dosis-Light", size: 30)
-        self.view.addSubview(labelSum)
+        labelSummary = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
+        labelSummary.numberOfLines = 112
+        labelSummary.center = CGPoint(x: 180, y: 570)
+        labelSummary.textAlignment = .center
+        labelSummary.textColor = UIColor.black
+        labelSummary.font = UIFont(name: "Dosis-Light", size: 30)
+        self.view.addSubview(labelSummary)
         
         // buttton
         
-        let button = UIButton(frame: CGRect(x: 150, y: 740, width: 80, height: 30))
+        let button = UIButton(frame: CGRect(x: 150, y: 650, width: 80, height: 30))
         button.backgroundColor = .black
         button.setTitle("refresh", for: UIControl.State.normal)
         button.addTarget(self, action: #selector(buttonAction), for: UIControl.Event.touchUpInside)
@@ -157,13 +157,33 @@ class ViewController: UIViewController {
             
             
         }
-        Forecast.forecast(withID: "4460162") { (forecastDict:[[String:Any]]) in
+        Forecast.getWeather(withLocation: "35.9467,-79.0612") { (array:[[String:Any]]) in
             
             
             DispatchQueue.main.async {
-                for day in forecastDict {
-                    //print("day",day)
+                for date in array {
+                    print("date",date)
+                    let time = date["time"] as! Int
+                    
+                    let unixTimestamp = time
+                    let day = Date(timeIntervalSince1970: TimeInterval(unixTimestamp))
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone = TimeZone(abbreviation: "EDT") //Set timezone that you want
+                    dateFormatter.locale = NSLocale.current
+                    dateFormatter.dateFormat = "EEEE" //Specify your format that you want
+                    let strDate = dateFormatter.string(from: day)
+
+                    //print("day??",strDate)
+                    self.tempLows.append(date["tempLow"] as! Double)
+                    self.tempHighs.append(date["tempHigh"] as! Double)
+                    self.weekDays.append(strDate as! String)
+                    
+                    
+                    self.collectionView.reloadData()
+                    
                 }
+                
             }
             
             
@@ -182,16 +202,7 @@ class ViewController: UIViewController {
                 let tempHigh = currentWeather["tempHigh"] as! Double
 
                 
-                print(currentWeather["temp"] as! Double)
-                print(currentWeather["humidity"] as! Double)
-                print(currentWeather["time"] as! Int)
-                print(currentWeather["cloudCover"] as! Double)
-                print(currentWeather["windSpeed"] as! Double)
-                print(currentWeather["precipProbability"] as! Double)
-                print(currentWeather["nearestStormDistance"] as! Int)
-                print(currentWeather["summary"] as! String)
-                print(currentWeather["tempLow"] as! Double)
-                print(currentWeather["tempHigh"] as! Double)
+                
                 
                 let unixTimestamp = time
                 let date = Date(timeIntervalSince1970: TimeInterval(unixTimestamp))
@@ -205,13 +216,13 @@ class ViewController: UIViewController {
                 
                 
                 
-                self.label.text = "time: \(strDate)\nwindspeed: \(windSpeed) MPH\nhumidity: \(Int(humidity*100))%\nnearest storm: \(nearestStormDistance) miles\ncloud cover: \(cloudCover)%\nprecipitation probability: \(precipProbability)%"
+                self.weatherLabel.text = "time: \(strDate)\nwindspeed: \(windSpeed) MPH\nhumidity: \(Int(humidity*100))%\nnearest storm: \(nearestStormDistance) miles\ncloud cover: \(cloudCover)%\nprecipitation probability: \(precipProbability)%"
                 
                 
                 self.labelHigh.text = "\(tempHigh) ˚F"
-                self.labeld.text = "\(temp) ˚F"
+                self.labelCurrent.text = "\(temp) ˚F"
                 self.labelLow.text = "\(tempLow) ˚F"
-                self.labelSum.text = summary
+                self.labelSummary.text = summary
 
                 
             }
@@ -221,11 +232,26 @@ class ViewController: UIViewController {
     }
     
     @objc func buttonAction(sender: UIButton!) {
+        print("hey")
         getLocation()
+        
     }
-    
-    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
+        cell.label.text = "\(weekDays[indexPath.row])\n \n\(tempLows[indexPath.row])˚F \u{2193}\n\(tempHighs[indexPath.row])˚F \u{2191}"
+        
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return tempLows.count
+    }
 
 }
 
-
+extension NSDate {
+    func dayOfTheWeek() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: self as Date)
+    }
+}
