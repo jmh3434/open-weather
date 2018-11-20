@@ -14,7 +14,7 @@ struct Weather {
     
     static let basePath = "https://api.openweathermap.org/data/2.5/"
     static let apiKey = "1a030624be57d904c2ea834c553e9c4c"
-    static let weatherType = "weather?"
+    static let weatherType = "forecast?"
     static let units = "imperial"
     static let unit = "F"
     
@@ -24,7 +24,7 @@ struct Weather {
         ([String:Any]) -> ()) {
         
 
-        
+        var i = 0
         
         // http://api.openweathermap.org/data/2.5/weather?id=4460162&appid=1a030624be57d904c2ea834c553e9c4c
         
@@ -45,8 +45,15 @@ struct Weather {
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] {
                         
                         
-                       
-                        if let name = json["name"] as? String  {
+                      // print("json is",json)
+                        if let name = json["list"] as? [[String:Any]]  {
+                            if let dt_txt = name[i]["dt_txt"] as? String {
+                                print("dt_txt",dt_txt)
+                            }
+                            if let main = name[i]["weather"] as? [[String:Any]]{
+                                print("name is", main)
+                            }
+                            i+=1
                             
                             
                         }

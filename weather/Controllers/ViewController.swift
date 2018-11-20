@@ -28,6 +28,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
     var tempLows = [Double]()
     var tempHighs = [Double]()
     var weekDays = [String]()
+    var icons = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,7 +86,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         labelLow.numberOfLines = 112
         labelLow.center = CGPoint(x: 180, y: 400)
         labelLow.textAlignment = .center
-        labelLow.textColor = UIColor.blue
+        labelLow.textColor = UIColor(red:0.35, green:0.56, blue:0.86, alpha:1.0)
         labelLow.font = UIFont(name: "Dosis-Light", size: 30)
         self.view.addSubview(labelLow)
         
@@ -162,8 +163,19 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
             
             DispatchQueue.main.async {
                 for date in array {
-                    print("date",date)
+                    //print("date",date)
                     let time = date["time"] as! Int
+                    var icon = date["icon"] as! String
+                    
+                    switch icon {
+                        case "clear-day": icon = "clear"
+                        case "partly-cloudy-night": icon = "partly cloudy"
+                        case "partly-cloudy-day": icon = "partly cloudy"
+                        case "rain": icon = "rain"
+                        
+                    
+                    default: icon = "nil"
+                    }
                     
                     let unixTimestamp = time
                     let day = Date(timeIntervalSince1970: TimeInterval(unixTimestamp))
@@ -177,7 +189,8 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
                     //print("day??",strDate)
                     self.tempLows.append(date["tempLow"] as! Double)
                     self.tempHighs.append(date["tempHigh"] as! Double)
-                    self.weekDays.append(strDate as! String)
+                    self.weekDays.append(strDate )
+                    self.icons.append(icon)
                     
                     
                     self.collectionView.reloadData()
@@ -237,8 +250,18 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+       
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        cell.label.text = "\(weekDays[indexPath.row])\n \n\(tempLows[indexPath.row])˚F \u{2193}\n\(tempHighs[indexPath.row])˚F \u{2191}"
+        
+        switch icons[indexPath.row] {
+        case "clear": cell.cvImage.image = UIImage(named: "clear.png")
+        case "partly cloudy": cell.cvImage.image = UIImage(named: "partly-cloudy.png")
+        case "rain": cell.cvImage.image = UIImage(named: "rain.png")
+        default:
+            cell.cvImage.image = UIImage(named: "clear.png")
+        }
+        cell.label.text = "\(weekDays[indexPath.row])\n\(icons[indexPath.row])"
+        cell.highlowLabel.text = "\(tempLows[indexPath.row])˚F \u{2193}\n\(tempHighs[indexPath.row])˚F \u{2191}"
         
         return cell
     }

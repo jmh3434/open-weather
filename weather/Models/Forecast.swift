@@ -51,14 +51,14 @@ struct Forecast {
                                 
                                
                                 for dataPoint in dailyOutlook {
-                                    if let tempLow = dailyOutlook[i]["temperatureLow"], let tempHigh = dailyOutlook[i]["temperatureHigh"], let time = dailyOutlook[i]["time"]{
+                                    if let tempLow = dailyOutlook[i]["temperatureLow"], let tempHigh = dailyOutlook[i]["temperatureHigh"], let time = dailyOutlook[i]["time"], let icon = dailyOutlook[i]["icon"]{
                                         
                                         weatherDict["tempLow"] = tempLow
                                         //print("tempLow",tempLow)
                                         weatherDict["tempHigh"] = tempHigh
                                         
                                         
-                                        
+                                        weatherDict["icon"] = icon
                                         weatherDict["time"] = time
                                         //print("tempHigh",tempHigh)
                                         i+=1
