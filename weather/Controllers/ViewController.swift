@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDelegate,UICollectionViewDataSource{
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewA: UICollectionView!
+    @IBOutlet weak var collectionViewB: UICollectionView!
     
     let weatherLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
     let iconContainer = UIView()
@@ -22,13 +23,21 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
     var labelHigh = UILabel()
     var labelLow = UILabel()
     
-    var tempLows = [Double]()
-    var tempHighs = [Double]()
+    var temps = [Int]()
+    var hours = [String]()
+    var tempLows = [Int]()
+    var tempHighs = [Int]()
     var weekDays = [String]()
     var icons = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionViewA.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        collectionViewB.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        collectionViewA.delegate = self
+        collectionViewB.delegate = self
         
+        collectionViewA.dataSource = self
+        collectionViewB.dataSource = self
         // label for Title
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
         titleLabel.numberOfLines = 5
@@ -41,10 +50,10 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         
         //label for time, windspeed, and humidity
         weatherLabel.numberOfLines = 112
-        weatherLabel.center = CGPoint(x: 180, y: 280)
+        weatherLabel.center = CGPoint(x: 180, y: 287)
         weatherLabel.textAlignment = .natural
         weatherLabel.textColor = UIColor.black
-        weatherLabel.font = UIFont(name: "Dosis-Light", size: 26)
+        weatherLabel.font = UIFont(name: "Dosis-Light", size: 25)
         self.view.addSubview(weatherLabel)
         
         getLocation()
@@ -82,17 +91,17 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         labelLow.textAlignment = .center
         labelLow.textColor = UIColor(red:0.35, green:0.56, blue:0.96, alpha:1.0)
         labelLow.font = UIFont(name: "Dosis-Light", size: 30)
-        self.view.addSubview(labelLow)
+        //self.view.addSubview(labelLow)
         
         
         //label for current temp
         labelCurrent = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         labelCurrent.numberOfLines = 112
-        labelCurrent.center = CGPoint(x: 180, y: 460)
+        labelCurrent.center = CGPoint(x: 180, y: 490)
         labelCurrent.textAlignment = .center
         labelCurrent.textColor = UIColor.black
-        labelCurrent.font = UIFont(name: "Dosis-Light", size: 30)
-        self.view.addSubview(labelCurrent)
+        labelCurrent.font = UIFont(name: "Dosis-Light", size: 25)
+        //self.view.addSubview(labelCurrent)
         
         // label for max temp
         labelHigh = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
@@ -101,7 +110,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         labelHigh.textAlignment = .center
         labelHigh.textColor = UIColor.red
         labelHigh.font = UIFont(name: "Dosis-Light", size: 30)
-        self.view.addSubview(labelHigh)
+        //self.view.addSubview(labelHigh)
         
         
         
@@ -113,7 +122,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         labelSummary.textAlignment = .center
         labelSummary.textColor = UIColor.black
         labelSummary.font = UIFont(name: "Dosis-Light", size: 30)
-        self.view.addSubview(labelSummary)
+        //self.view.addSubview(labelSummary)
         
         // buttton
         
@@ -121,7 +130,46 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
     }
     func getLocation() {
         
-    
+        Hourly.getWeather(withLocation: "35.9467,-79.0612") { (hours:[[String:Any]]) in
+            
+            
+            DispatchQueue.main.async {
+                for hour in hours {
+                    
+                    let time = hour["time"] as! Int
+                    let tempDouble = hour["temperature"] as! Double
+                    
+                    let temperature = Int(tempDouble)
+                    
+              
+                    
+                    let unixTimestamp = time
+                    let day = Date(timeIntervalSince1970: TimeInterval(unixTimestamp))
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone = TimeZone(abbreviation: "EDT") //Set timezone that you want
+                    dateFormatter.locale = NSLocale.current
+                    
+                    
+                    dateFormatter.dateFormat = "h a"
+                    dateFormatter.amSymbol = "AM"
+                    dateFormatter.pmSymbol = "PM"
+                    
+                    let strDate = dateFormatter.string(from: day)
+                    
+                    
+                    
+                    print("Hour ",strDate)
+                    print("Temp: ",temperature)
+                    self.hours.append(strDate)
+                    self.temps.append(temperature)
+                    self.collectionViewB.reloadData()
+                }
+                
+            }
+            
+            
+        }
         Forecast.getWeather(withLocation: "35.9467,-79.0612") { (array:[[String:Any]]) in
             
             
@@ -151,13 +199,18 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
                     let strDate = dateFormatter.string(from: day)
 
                     //print("day??",strDate)
-                    self.tempLows.append(date["tempLow"] as! Double)
-                    self.tempHighs.append(date["tempHigh"] as! Double)
+                    let lowDouble = date["tempLow"] as! Double
+                    let highDouble = date["tempHigh"] as! Double
+                    let low = Int(lowDouble)
+                    let high = Int(highDouble)
+                    
+                    self.tempLows.append(low)
+                    self.tempHighs.append(high)
                     self.weekDays.append(strDate )
                     self.icons.append(icon)
                     
                     
-                    self.collectionView.reloadData()
+                    self.collectionViewA.reloadData()
                     
                 }
                 
@@ -177,6 +230,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
                 let summary = currentWeather["summary"] as! String
                 let tempLow = currentWeather["tempLow"] as! Double
                 let tempHigh = currentWeather["tempHigh"] as! Double
+                let apparentTemperature = currentWeather["apparentTemperature"] as! Double
 
                 
                 
@@ -193,7 +247,7 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
                 
                 
                 
-                self.weatherLabel.text = "time: \(strDate)\nwindspeed: \(windSpeed) MPH\nhumidity: \(Int(humidity*100))%\nnearest storm: \(nearestStormDistance) miles\ncloud cover: \(cloudCover)%\nprecipitation probability: \(precipProbability)%"
+                self.weatherLabel.text = "time: \(strDate)\nwindspeed: \(windSpeed) MPH\nhumidity: \(Int(humidity*100))%\nnearest storm: \(nearestStormDistance) miles\ncloud cover: \(cloudCover)%\nprecipitation probability: \(precipProbability)%\nfeels like: \(apparentTemperature)"
                 
                 
                 self.labelHigh.text = "\(tempHigh) ˚F"
@@ -214,23 +268,62 @@ class ViewController: UIViewController, UICollectionViewDelegate,UICollectionVie
         
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if collectionView == self.collectionViewA {
+            
+            let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
+            
+            switch icons[indexPath.row] {
+            case "clear": cellA.cvImage.image = UIImage(named: "clear.png")
+            case "partly cloudy": cellA.cvImage.image = UIImage(named: "partly-cloudy.png")
+            case "rain": cellA.cvImage.image = UIImage(named: "rain.png")
+            default:
+                cellA.cvImage.image = UIImage(named: "clear.png")
+            }
+            cellA.label.text = "\(weekDays[indexPath.row])\n\(icons[indexPath.row])"
+            cellA.highlowLabel.text = "\(tempLows[indexPath.row]) ˚F \u{2193}\n\(tempHighs[indexPath.row]) ˚F \u{2191}"
+            
+            if indexPath.row % 2 == 0 {
+                cellA.backgroundColor = UIColor(white: 0.6, alpha: 1)
+                cellA.highlowLabel.textColor = UIColor.white
+                cellA.label.textColor = UIColor.white
+            } else {
+                cellA.backgroundColor = UIColor.white
+            }
+            
+            return cellA
        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        
-        switch icons[indexPath.row] {
-        case "clear": cell.cvImage.image = UIImage(named: "clear.png")
-        case "partly cloudy": cell.cvImage.image = UIImage(named: "partly-cloudy.png")
-        case "rain": cell.cvImage.image = UIImage(named: "rain.png")
-        default:
-            cell.cvImage.image = UIImage(named: "clear.png")
         }
-        cell.label.text = "\(weekDays[indexPath.row])\n\(icons[indexPath.row])"
-        cell.highlowLabel.text = "\(tempLows[indexPath.row])˚F \u{2193}\n\(tempHighs[indexPath.row])˚F \u{2191}"
+            
+        else {
+            let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: "temp", for: indexPath) as! TempCell
+            
+            cellB.tempLabel.text = "\(temps[indexPath.row]) ˚F"
+            cellB.timeLabel.text = "\(hours[indexPath.row])"
+            print("hourscount",hours.count)
+//            if indexPath.row % 2 == 0 {
+//                cellB.backgroundColor = UIColor.lightGray
+//            } else {
+//                cellB.backgroundColor = UIColor.white
+//            }
+            let currentCellTemp = Double(temps[indexPath.row]-20)
+            print("currentCellTemp",currentCellTemp)
+            let alphaV = currentCellTemp * 0.030
+            cellB.backgroundColor = UIColor(red:0.35, green:0.56, blue:0.86, alpha:CGFloat(alphaV))
+            
+            return cellB
+        }
+       
         
-        return cell
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tempLows.count
+        
+        if collectionView == self.collectionViewA {
+            return tempLows.count // Replace with count of your data for collectionViewA
+        }
+        
+        return hours.count
+        
     }
 
 }

@@ -41,7 +41,8 @@ struct Summary {
                         
                        if let daily = json["currently"] as? [String:Any] {
                         
-                            if let temp = daily["temperature"] as? Double,let humidity = daily["humidity"] as? Double, let time = daily["time"],let precipProbability = daily["precipProbability"],let windSpeed = daily["windSpeed"], let cloudCover = daily["cloudCover"]{
+                        
+                            if let temp = daily["temperature"] as? Double,let humidity = daily["humidity"] as? Double, let time = daily["time"],let precipProbability = daily["precipProbability"],let windSpeed = daily["windSpeed"], let cloudCover = daily["cloudCover"],let apparentTemperature = daily["apparentTemperature"]{
 
                                 weatherDict["temp"] = temp
                                 weatherDict["humidity"] = humidity
@@ -49,6 +50,7 @@ struct Summary {
                                 weatherDict["cloudCover"] = cloudCover
                                 weatherDict["windSpeed"] = windSpeed
                                 weatherDict["precipProbability"] = precipProbability
+                                weatherDict["apparentTemperature"] = apparentTemperature
                             }
                             if let nearestStormDistance = daily["nearestStormDistance"] as? Int  {
                                 weatherDict["nearestStormDistance"] = nearestStormDistance
@@ -62,7 +64,7 @@ struct Summary {
                         if let dailyOutlook = json["daily"] as? [String:Any] {
                             
                             if let summary = dailyOutlook["summary"] {
-                                weatherDict["summary"] = summary
+                                //weatherDict["summary"] = summary
                             }
                             
                             if let dailyOutlook = dailyOutlook["data"] as? [[String:Any]] {
@@ -81,6 +83,15 @@ struct Summary {
                                
                             }
                         }
+                        if let minutely = json["minutely"] as? [String:Any] {
+                            
+                            if let summary = minutely["summary"] {
+                                weatherDict["summary"] = summary
+                            }
+                            
+                       
+                        }
+                       
                         
                         
                     }

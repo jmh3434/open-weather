@@ -1,15 +1,15 @@
 //
-//  Forecast.swift
+//  Minutely.swift
 //  weather
 //
-//  Created by James Hunt on 11/19/18.
+//  Created by James Hunt on 11/22/18.
 //  Copyright © 2018 James Hunt. All rights reserved.
 //
 
 import Foundation
 
 
-struct Forecast {
+struct Hourly {
     
     
     static let basePath = "https://api.darksky.net/forecast/efd21cf614c4f0429e807683bbe7b1e4/"
@@ -39,29 +39,27 @@ struct Forecast {
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] {
                         
                         
-                      
                         
-                        if let dailyOutlook = json["daily"] as? [String:Any] {
+                        
+                        if let dailyOutlook = json["hourly"] as? [String:Any] {
                             
-                           
+                            
                             
                             if let dailyOutlook = dailyOutlook["data"] as? [[String:Any]] {
                                 
-                               
                                 
-                               
+                                
+                                
                                 for dataPoint in dailyOutlook {
-                                    if let tempLow = dailyOutlook[i]["temperatureLow"], let tempHigh = dailyOutlook[i]["temperatureHigh"], let time = dailyOutlook[i]["time"], let icon = dailyOutlook[i]["icon"]{
+                                    if let time = dailyOutlook[i]["time"], let temperature = dailyOutlook[i]["temperature"]{
                                         
-                                        weatherDict["tempLow"] = tempLow
-                                        //print("tempLow",tempLow)
-                                        weatherDict["tempHigh"] = tempHigh
-                                        
-                                        
-                                        
-                                        weatherDict["icon"] = icon
                                         weatherDict["time"] = time
-                                        //print("tempHigh",tempHigh)
+                                        
+                                        weatherDict["temperature"] = temperature
+                                        
+                                        
+                                        
+                                
                                         i+=1
                                         
                                     }
@@ -98,5 +96,6 @@ struct Forecast {
     
     
 }
+
 
 
