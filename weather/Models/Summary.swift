@@ -70,8 +70,9 @@ struct Summary {
                             if let dailyOutlook = dailyOutlook["data"] as? [[String:Any]] {
                                 
                                
-                                if let tempLow = dailyOutlook[0]["temperatureLow"], let tempHigh = dailyOutlook[0]["temperatureHigh"]{
+                                if let tempLow = dailyOutlook[0]["temperatureLow"], let tempHigh = dailyOutlook[0]["temperatureHigh"], let moonPhase = dailyOutlook[0]["moonPhase"]{
                                      weatherDict["tempLow"] = tempLow
+                                    weatherDict["moonPhase"] = moonPhase
                                     
                                      weatherDict["tempHigh"] = tempHigh
                                     
